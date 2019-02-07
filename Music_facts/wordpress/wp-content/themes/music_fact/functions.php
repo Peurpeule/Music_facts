@@ -122,7 +122,19 @@ add_action( 'widgets_init', 'music_fact_widgets_init' );
 function music_fact_scripts() {
 	wp_enqueue_style( 'music_fact-style', get_stylesheet_uri() );
 
-	wp_enqueue_script( 'music_fact-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
+    wp_enqueue_script( 'music_fact-script', get_template_directory_uri() . '/js/script.js');
+
+    wp_deregister_script('jquery');
+    wp_register_script('jquery', 'https://code.jquery.com/jquery-3.3.1.min.js');
+    wp_enqueue_script('jquery');
+
+    wp_enqueue_script( 'ajax-pagination',  get_template_directory_uri() . '/js/ajax-pagination.js');
+
+    wp_localize_script( 'ajax-pagination', 'ajaxpagination', array(
+        'ajaxurl' => admin_url( 'admin-ajax.php' )
+    ));
+
+    wp_enqueue_script( 'music_fact-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
 
 	wp_enqueue_script( 'music_fact-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
 

@@ -32,16 +32,17 @@ $menuColor = $colors[1]; ?>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <?php wp_head(); ?>
-    <style> .fact-menu .fact-menu-element{ background-color: <?= $menuColor ?> } </style>
+    <style> .fact-menu .fact-menu-element{ background-color: <?= $menuColor ?> }
+            .next-button{ background: <?= $menuColor ?> }</style>
 </head>
 
-<body <?php body_class(); ?>>
+<body id="ajax-container" <?php body_class(); ?>>
 
     <?php
     $args = array(
         'post_type' => 'post',
         'orderby'   => 'rand',
-        'posts_per_page' => 5,
+        'posts_per_page' => 1,
     );
 
     $the_query = new WP_Query( $args );
@@ -50,6 +51,7 @@ $menuColor = $colors[1]; ?>
     if ( $the_query->have_posts() ) :
         while ( $the_query->have_posts() ) :
             $the_query->the_post(); ?>
+            <div class="id-container"><?php the_ID(); ?></div>
             <div class="main-container container-illustration" style="background: url(<?php echo get_the_post_thumbnail_url(); ?>) no-repeat center; -webkit-background-size: cover">
                 <div class="alpha-filter" style="background-color:<?= $backgroundColor ?>;"></div>
                 <div class="illustration-box">
@@ -60,21 +62,19 @@ $menuColor = $colors[1]; ?>
                         <span><i class="fas fa-comment"></i></span>
                     </a>
                     <a href="#" class="fact-menu-element">
-                        <span><i class="fas fa-arrow-alt-circle-right"></i></span>
-                    </a>
-                    <a href="#" class="fact-menu-element">
-                        <span><i class="fas fa-tag"></i></span>
-                    </a>
-                    <a href="#" class="fact-menu-element">
                         <span><i class="fas fa-plus-circle"></i></span>
                     </a>
                 </div>
+                <a href="#" class="next-button">
+                    <i class="fas fa-angle-right"></i>
+                </a>
             </div>
             <div class="main-container container-content">
                 <div class="content-box">
                     <?php the_post_thumbnail(); ?>
                     <p><?php echo get_the_content(); ?></p>
                 </div>
+                <i class="fas fa-chevron-circle-down"></i>
             </div>
         <?php endwhile;
         /* Restore original Post Data */
